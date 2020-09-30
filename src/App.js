@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import getStarshipsList from './utils/data';
 
+import Table from './components/Table';
+import { 
+  Container,
+  FormContainer,
+  Input,
+  InputButton,
+} from './style';
+
 const App = () => {
   const [starships, setStarships] = useState([]);
   const [distance, setDistance] = useState('');
+
+  const sortCondition = (starshipA, starshipB) => {
+    return starshipA.stops > starshipB.stops ? 1 : -1;
+  };
 
   const getData = async () => {
     const data = await getStarshipsList();
@@ -14,7 +26,7 @@ const App = () => {
       ss.push({...starship, stops: Math.trunc(stops)});
     }
 
-    setStarships(ss);
+    setStarships(ss.sort(sortCondition));
   };
 
   useEffect(() => {
@@ -28,46 +40,24 @@ const App = () => {
   };
 
   return (
-    <>
-      <form>
-        <input 
+    <Container>
+      <FormContainer>
+        <Input
           type='text' 
           name='mglt' 
+          placeholder='Distância a ser percorrida'
           value={distance}
           onChange={e => setDistance(e.target.value)}
         />
 
-        <input 
+        <InputButton
           type='button' 
-          value='clear' 
+          value='limpar' 
           onClick={handleClear}
         />
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>name</th>
-            <th>consumables</th>
-            <th>MGLT</th>
-            <th>Stops</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            starships.map((starship) => {
-              return (
-                <tr>
-                  <td>{starship.name}</td>
-                  <td>{starship.consumables}</td>
-                  <td>{starship.MGLT}</td>
-                  <td>{starship.stops}</td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
-    </>
+      </FormContainer>
+      <Table starships={starships} />
+    </Container>
   );
 }
 
