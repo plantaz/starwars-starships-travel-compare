@@ -10,6 +10,7 @@ import {
   FormContainer,
   Input,
   InputButton,
+  Button
 } from './style';
 
 const App = () => {
@@ -69,18 +70,18 @@ const App = () => {
       </FormContainer>
       <Table starships={starships} />
       <div>
-        <button 
+        <Button 
           disabled={!prev} 
           onClick={handlePrev}
         >
           prev
-        </button>
-        <button 
+        </Button>
+        <Button 
           disabled={!next} 
           onClick={handleNext}
         >
           next
-        </button>
+        </Button>
       </div>
     </Container>
   );

@@ -28,3 +28,19 @@ export const InputButton = styled.input`
   border: none;
   cursor: pointer;
 `;
+
+export const Button = styled.button`
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: white;
+  background: tomato;
+  border: none;
+  padding: 1rem;
+  margin: 0 1px;
+  cursor: pointer;
+  
+  &:disabled {
+    background: #ddd;
+  }
+`;
