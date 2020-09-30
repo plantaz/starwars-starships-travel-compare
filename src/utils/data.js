@@ -14,11 +14,12 @@ const getStarshipsData = async () => {
 };
 
 const filteredStarshipsData = async (data) => {
-  const { name, consumables, MGLT } = data;
+  const { name, consumables, MGLT, url } = data;
   return {
     name,
     consumables,
-    MGLT
+    MGLT,
+    url
   }
 };
 
@@ -33,7 +34,6 @@ const getStarshipsList = async () => {
   const starshipsData = await getStarshipsData();
   const starships = [];
 
-  console.log('getData:', starshipsData);
   for (let starshipData of starshipsData) {
     const starship = await filteredStarshipsData(starshipData);
 
