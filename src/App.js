@@ -7,9 +7,9 @@ import Table from './components/Table';
 
 import { 
   Container,
-  FormContainer,
+  Actions,
+  Form,
   Input,
-  InputButton,
   Button
 } from './style';
 
@@ -53,36 +53,41 @@ const App = () => {
 
   return (
     <Container>
-      <FormContainer>
-        <Input
-          type='text' 
-          name='mglt' 
-          placeholder='Distância a ser percorrida'
-          value={distance}
-          onChange={e => setDistance(e.target.value)}
-        />
+      <Actions>
+        <Form>
+          <Input
+            type='text' 
+            name='mglt' 
+            placeholder='Distance to be covered'
+            value={distance}
+            onChange={e => setDistance(e.target.value)}
+          />
 
-        <InputButton
-          type='button' 
-          value='limpar' 
-          onClick={handleClear}
-        />
-      </FormContainer>
+          <Button
+            type='button' 
+            value='limpar' 
+            onClick={handleClear}
+          >
+            clear
+          </Button>
+        </Form>
+
+        <div>
+          <Button 
+            disabled={!prev} 
+            onClick={handlePrev}
+          >
+            prev
+          </Button>
+          <Button 
+            disabled={!next} 
+            onClick={handleNext}
+          >
+            next
+          </Button>
+        </div>
+      </Actions>
       <Table starships={starships} />
-      <div>
-        <Button 
-          disabled={!prev} 
-          onClick={handlePrev}
-        >
-          prev
-        </Button>
-        <Button 
-          disabled={!next} 
-          onClick={handleNext}
-        >
-          next
-        </Button>
-      </div>
     </Container>
   );
 }

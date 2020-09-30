@@ -12,6 +12,7 @@ const Table = ({ starships }) => {
     const nullables = ['unknown', null, undefined];
     const ifIndexOf = nullables.indexOf(attr) !== -1;
 
+    // Number.isNaN() - check if value really is a NaN
     return ifIndexOf || Number.isNaN(attr) ? '--' : attr;
   };
 
