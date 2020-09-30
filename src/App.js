@@ -14,25 +14,37 @@ import {
 
 const App = () => {
   const [starships, setStarships] = useState([]);
+  const [url, setUrl] = useState('');
+  const [next, setNext] = useState('');
+  const [prev, setPrev] = useState('');
   const [distance, setDistance] = useState('');
 
-  const getData = async () => {
-    const data = await getStarshipsList();
+  const getData = async (url) => {
+    const data = await getStarshipsList(url);
 
     const ss = [];
-    for (const starship of data) {
+    for (const starship of data.starships) {
       const stops = calculateStops(distance, starship);
       ss.push({...starship, stops});
     }
 
+    setNext(data.next);
+    setPrev(data.prev);
     setStarships(sortByStops(ss));
   };
 
-  useEffect(() => {
-    getData(); 
-  }, [distance]);
+  const handleNext = () => {
+    setUrl(next);
+  };
 
-  console.log('starships:', starships);
+  const handlePrev = () => {
+    setUrl(prev);
+  };
+
+  useEffect(() => {
+    getData(url); 
+  }, [distance, url]);
+
 
   const handleClear = () => { 
     setDistance('');
@@ -56,6 +68,20 @@ const App = () => {
         />
       </FormContainer>
       <Table starships={starships} />
+      <div>
+        <button 
+          disabled={!prev} 
+          onClick={handlePrev}
+        >
+          prev
+        </button>
+        <button 
+          disabled={!next} 
+          onClick={handleNext}
+        >
+          next
+        </button>
+      </div>
     </Container>
   );
 }

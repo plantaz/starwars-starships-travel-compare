@@ -1,16 +1,9 @@
-import Axios from 'axios';
+import axios from 'axios';
 
-const axios = Axios.create({
-  baseURL: 'https://swapi.dev/api/starships',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
-});
-
-const getStarshipsData = async () => {
-  const { data } = await axios.get();
-  return data.results;
+const getStarshipsData = async (url) => {
+  const uri = url ? url : 'https://swapi.dev/api/starships';
+  const { data } = await axios.get(uri);
+  return data;
 };
 
 const filteredStarshipsData = async (data) => {
@@ -30,11 +23,11 @@ const getBaseTime = (base) => {
   if (/^year(s)?$/.test(base)) return 8760;
 };
 
-const getStarshipsList = async () => {
-  const starshipsData = await getStarshipsData();
+const getStarshipsList = async (url) => {
+  const starshipsData = await getStarshipsData(url);
   const starships = [];
 
-  for (let starshipData of starshipsData) {
+  for (let starshipData of starshipsData.results) {
     const starship = await filteredStarshipsData(starshipData);
 
     const basetime = starship.consumables.split(' ');
@@ -43,7 +36,11 @@ const getStarshipsList = async () => {
     starships.push({...starship, travelTime: time});
   }
 
-  return starships;
-};
+  return { 
+    starships, 
+    next: starshipsData.next,
+    prev: starshipsData.previous
+  };
+}
 
 export default getStarshipsList;

@@ -8,6 +8,13 @@ import {
 } from './style';
 
 const Table = ({ starships }) => {
+  const ifNullable = (attr) => {
+    const nullables = ['unknown', null, undefined];
+    const ifIndexOf = nullables.indexOf(attr) !== -1;
+
+    return ifIndexOf || Number.isNaN(attr) ? '--' : attr;
+  };
+
   return (
     <div style={{ overflowX: 'auto' }}>
       <TableContainer>
@@ -29,9 +36,9 @@ const Table = ({ starships }) => {
                       {starship.name}
                     </Link>
                   </Td>
-                  <Td>{starship.consumables}</Td>
-                  <Td>{starship.MGLT}</Td>
-                  <Td>{starship.stops}</Td>
+                  <Td>{ifNullable(starship.consumables)}</Td>
+                  <Td>{ifNullable(starship.MGLT)}</Td>
+                  <Td>{ifNullable(starship.stops)}</Td>
                 </TableRow>
               )
             })
