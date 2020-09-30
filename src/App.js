@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+
 import getStarshipsList from './utils/data';
+import { calculateStops, sortByStops } from './utils/calcs';
 
 import Table from './components/Table';
+
 import { 
   Container,
   FormContainer,
@@ -13,20 +16,16 @@ const App = () => {
   const [starships, setStarships] = useState([]);
   const [distance, setDistance] = useState('');
 
-  const sortCondition = (starshipA, starshipB) => {
-    return starshipA.stops > starshipB.stops ? 1 : -1;
-  };
-
   const getData = async () => {
     const data = await getStarshipsList();
 
     const ss = [];
     for (const starship of data) {
-      const stops = (distance / starship.travelTime) / starship.MGLT;
-      ss.push({...starship, stops: Math.trunc(stops)});
+      const stops = calculateStops(distance, starship);
+      ss.push({...starship, stops});
     }
 
-    setStarships(ss.sort(sortCondition));
+    setStarships(sortByStops(ss));
   };
 
   useEffect(() => {
